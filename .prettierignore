@@ -1,5 +1,3 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # Compiled output
 /dist
 /tmp
@@ -19,7 +17,6 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-.nx/
 
 # Visual Studio Code
 .vscode/*
