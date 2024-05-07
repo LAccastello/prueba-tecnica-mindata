@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Superman",
+    "realName": "Clark Kent",
+    "powers": ["Vuelo", "Fuerza sobrehumana", "Visión de rayos X"]
+  },
+  {
+    "id": 2,
+    "name": "Batman",
+    "realName": "Bruce Wayne",
+    "powers": [
+      "Inteligencia táctica",
+      "Lucha cuerpo a cuerpo",
+      "Tecnología avanzada"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Wonder Woman",
+    "realName": "Diana Prince",
+    "powers": ["Fuerza sobrehumana", "Velocidad", "Lazo de la verdad"]
+  },
+  {
+    "id": 4,
+    "name": "Spider-Man",
+    "realName": "Peter Parker",
+    "powers": ["Sentido arácnido", "Trepamuros", "Telarañas"]
+  }
+]
