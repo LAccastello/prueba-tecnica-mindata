@@ -4,8 +4,8 @@ import heroMockData from './mocks/hero-mock.json';
 
 @Injectable()
 export class HeroService implements IntHeroService {
+  // Se realiza una primera carga de héroes desde un mock
   heros = signal<IntHero[]>(heroMockData);
-  isSaved = false;
 
   registerHero(hero: IntHero): void {
     this.heros.update(heros => [...heros, hero]);
@@ -15,23 +15,16 @@ export class HeroService implements IntHeroService {
     return this.heros.asReadonly();
   }
 
-  // getHeroById(heroId: string): IntHero {
-  //   return this.heros(heros => heros.);
-  // }
+  getHeroById(heroId: number): IntHero | undefined {
+    return this.heros().find(hero => hero.id === heroId);
+  }
 
   getHeroesByName(name: string): void {
-    // if (!this.isSaved) {
-    //   this.isSaved = true;
-    //   localStorage.setItem('heros', JSON.stringify(this.heros()));
-    // }
     this.heros.update(herosItems =>
       herosItems.filter(hero =>
         hero.name.toLowerCase().includes(name.toLowerCase())
       )
     );
-    // this.heros().filter(hero =>
-    //   hero.name.toLowerCase().includes(name.toLowerCase())
-    // );
   }
 
   updateHero(updatedHero: IntHero): void {

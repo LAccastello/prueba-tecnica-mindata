@@ -1,3 +1,4 @@
+/** Angular Core */
 import { Component, Inject, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -6,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+/** Angular Material */
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -20,7 +22,9 @@ import {
   MatFormFieldModule,
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+/** Interfaces & directives */
 import { IntHero } from '../../../../interfaces/hero.interface';
+import { UpperCaseDirective } from '../../../../core/directives/uppercase.directive';
 
 @Component({
   selector: 'app-form-dialog',
@@ -35,6 +39,7 @@ import { IntHero } from '../../../../interfaces/hero.interface';
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    UpperCaseDirective,
   ],
   providers: [
     {

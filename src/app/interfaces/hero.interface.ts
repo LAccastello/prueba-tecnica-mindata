@@ -15,7 +15,7 @@ export interface IntHeroService {
   getHeroes(): Signal<IntHero[]>;
 
   // Consultar un único súper héroe por id
-  // getHeroById(heroId: string): IntHero;
+  getHeroById(heroId: number): IntHero | undefined;
 
   // Consultar todos los súper héroes que contienen el valor de un parámetro en su nombre
   getHeroesByName(name: string): void;

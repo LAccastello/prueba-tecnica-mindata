@@ -3,7 +3,7 @@
   <mat-dialog-content>
     <mat-form-field class="example-full-width" required>
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput formControlName="name" appUpperCase />
       @if (form.get('name')?.invalid) {
         <mat-error>Debe ingresar un nombre</mat-error>
       }

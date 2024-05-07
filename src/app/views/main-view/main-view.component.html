@@ -1,4 +1,6 @@
 <div class="container">
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
   <div class="menu-container">
     <div class="search-bar">
       <mat-form-field class="example-form-field">
@@ -58,17 +60,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-
-  <!-- <mat-paginator
-    (page)="handlePageEvent($event)"
-    [length]="paginatorLength()"
-    [pageSize]="pageSize"
-    [disabled]="paginatorDisabled()"
-    [showFirstLastButtons]="showFirstLastButtons"
-    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-    [hidePageSize]="hidePageSize"
-    [pageIndex]="pageIndex"
-    showFirstLastButtons
-    aria-label="Seleccione una página">
-  </mat-paginator> -->
 </div>

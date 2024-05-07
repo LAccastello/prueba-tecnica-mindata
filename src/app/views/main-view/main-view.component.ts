@@ -1,4 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+/** Angular Core */
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+/** Angular Material */
 import { MatTableModule } from '@angular/material/table';
 import { HeroService } from '../../services/hero-service.service';
 import { IntHero } from '../../interfaces/hero.interface';
@@ -11,9 +15,11 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+/** Components & Services*/
 import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
 import { DeleteHeroDialogComponent } from './components/delete-hero-dialog/delete-hero-dialog.component';
+import { LoadingService } from '../../core/services/loading/loading.service';
 
 @Component({
   selector: 'app-main-view',
@@ -27,9 +33,12 @@ import { DeleteHeroDialogComponent } from './components/delete-hero-dialog/delet
     MatInputModule,
     FormsModule,
     MatPaginatorModule,
+    MatProgressBarModule,
+    CommonModule,
   ],
   providers: [
     HeroService,
+    LoadingService,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
@@ -38,9 +47,10 @@ import { DeleteHeroDialogComponent } from './components/delete-hero-dialog/delet
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss',
 })
-export class MainViewComponent {
+export class MainViewComponent implements OnInit {
   /** INJECTIONS */
   private heroService = inject(HeroService);
+  private loadingService = inject(LoadingService);
   private dialog = inject(MatDialog);
 
   /** TABLE */
@@ -49,19 +59,24 @@ export class MainViewComponent {
   /** DATA VARIABLES */
   searchValue = signal<string>('');
   herosList = this.heroService.getHeroes();
-  // readonly herosList = computed(() => {
-  //   const query = this.searchValue();
-  //   if (query !== '') {
-  //     return this.heroService.getHeroesByName(this.searchValue());
-  //   } else {
-  //     return this.heroService.getHeroes();
-  //   }
-  // });
 
+  isLoading = false;
+
+  /** INIT */
+  ngOnInit(): void {
+    this.loadingService.loading.subscribe(value => {
+      this.isLoading = value;
+    });
+  }
+
+  /** COMPONENT LOGIC */
   onSearchUpdated(value: string): void {
-    console.log(value);
     if (value) {
-      this.heroService.getHeroesByName(value);
+      this.loadingService.showLoading();
+      this.loadingService.simulateHttp().subscribe(() => {
+        this.heroService.getHeroesByName(value);
+        this.loadingService.hideLoading();
+      });
     }
   }
 
@@ -77,7 +92,11 @@ export class MainViewComponent {
 
     dialogRef.afterClosed().subscribe((newHero: IntHero) => {
       if (newHero) {
-        this.heroService.registerHero(newHero);
+        this.loadingService.showLoading();
+        this.loadingService.simulateHttp().subscribe(() => {
+          this.heroService.registerHero(newHero);
+          this.loadingService.hideLoading();
+        });
       }
     });
   }
@@ -89,7 +108,11 @@ export class MainViewComponent {
 
     dialogRef.afterClosed().subscribe((updatedHero: IntHero) => {
       if (updatedHero) {
-        this.heroService.updateHero(updatedHero);
+        this.loadingService.showLoading();
+        this.loadingService.simulateHttp().subscribe(() => {
+          this.heroService.updateHero(updatedHero);
+          this.loadingService.hideLoading();
+        });
       }
     });
   }
@@ -101,7 +124,11 @@ export class MainViewComponent {
 
     dialogRef.afterClosed().subscribe((value: boolean) => {
       if (value) {
-        this.heroService.deleteHero(hero.id);
+        this.loadingService.showLoading();
+        this.loadingService.simulateHttp().subscribe(() => {
+          this.heroService.deleteHero(hero.id);
+          this.loadingService.hideLoading();
+        });
       }
     });
   }
