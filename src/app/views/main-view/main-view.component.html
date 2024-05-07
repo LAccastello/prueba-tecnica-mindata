@@ -1,9 +1,13 @@
-<div>
-  <div>
-    <div>
+<div class="container">
+  <div class="menu-container">
+    <div class="search-bar">
       <mat-form-field class="example-form-field">
         <mat-label>Buscar héroe</mat-label>
-        <input matInput type="text" [(ngModel)]="searchValue" />
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="searchValue"
+          (input)="onSearchUpdated(searchValue())" />
         @if (searchValue()) {
           <button
             matSuffix
@@ -15,7 +19,7 @@
         }
       </mat-form-field>
     </div>
-    <div>
+    <div class="button-bar">
       <button mat-flat-button color="primary" (click)="openNewHeroDialog()">
         Agregar
       </button>
@@ -55,9 +59,16 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
+  <!-- <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="paginatorLength()"
+    [pageSize]="pageSize"
+    [disabled]="paginatorDisabled()"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+    [hidePageSize]="hidePageSize"
+    [pageIndex]="pageIndex"
     showFirstLastButtons
     aria-label="Seleccione una página">
-  </mat-paginator>
+  </mat-paginator> -->
 </div>

@@ -17,12 +17,12 @@ export interface IntHeroService {
   // Consultar un único súper héroe por id
   // getHeroById(heroId: string): IntHero;
 
-  // // Consultar todos los súper héroes que contienen el valor de un parámetro en su nombre
-  // getHeroesByName(name: string): IntHero;
+  // Consultar todos los súper héroes que contienen el valor de un parámetro en su nombre
+  getHeroesByName(name: string): void;
 
-  // // Modificar un súper héroe
-  // updateHero(heroId: number, hero: IntHero): IntHero;
+  // Modificar un súper héroe
+  updateHero(updatedHero: IntHero): void;
 
-  // // Eliminar un súper héroe
-  // deleteHero(heroId: number): IntHero;
+  // Eliminar un súper héroe
+  deleteHero(heroId: number): void;
 }

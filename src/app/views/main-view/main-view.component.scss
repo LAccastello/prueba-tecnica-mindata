@@ -1,3 +1,14 @@
+.container {
+  margin: 1rem;
+
+  .menu-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
 table {
   width: 100%;
 }

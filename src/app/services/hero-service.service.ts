@@ -5,6 +5,7 @@ import heroMockData from './mocks/hero-mock.json';
 @Injectable()
 export class HeroService implements IntHeroService {
   heros = signal<IntHero[]>(heroMockData);
+  isSaved = false;
 
   registerHero(hero: IntHero): void {
     this.heros.update(heros => [...heros, hero]);
@@ -18,15 +19,20 @@ export class HeroService implements IntHeroService {
   //   return this.heros(heros => heros.);
   // }
 
-  // getHeroesByName(name: string): Observable<IntHero[]> {
-  //   return this.heros$.pipe(
-  //     map(heroes =>
-  //       heroes.filter(hero =>
-  //         hero.name.toLowerCase().includes(name.toLowerCase())
-  //       )
-  //     )
-  //   );
-  // }
+  getHeroesByName(name: string): void {
+    // if (!this.isSaved) {
+    //   this.isSaved = true;
+    //   localStorage.setItem('heros', JSON.stringify(this.heros()));
+    // }
+    this.heros.update(herosItems =>
+      herosItems.filter(hero =>
+        hero.name.toLowerCase().includes(name.toLowerCase())
+      )
+    );
+    // this.heros().filter(hero =>
+    //   hero.name.toLowerCase().includes(name.toLowerCase())
+    // );
+  }
 
   updateHero(updatedHero: IntHero): void {
     this.heros.update(heros =>
@@ -34,7 +40,11 @@ export class HeroService implements IntHeroService {
     );
   }
 
-  deleteHero(heroId: number) {
-    this.heros.update(heros => heros.filter(items => items.id !== heroId));
+  deleteHero(heroId: number): void {
+    this.heros.update(heros =>
+      heros
+        .filter(items => items.id !== heroId)
+        .map((hero, index) => ({ ...hero, id: index + 1 }))
+    );
   }
 }

@@ -1,10 +1,13 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { HeroService } from '../../services/hero-service.service';
 import { IntHero } from '../../interfaces/hero.interface';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,26 +25,48 @@ import { FormDialogComponent } from './components/form-dialog/form-dialog.compon
     MatIconModule,
     MatInputModule,
     FormsModule,
+    MatPaginatorModule,
   ],
-  providers: [HeroService],
+  providers: [
+    HeroService,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
+  ],
   templateUrl: './main-view.component.html',
   styleUrl: './main-view.component.scss',
 })
-export class MainViewComponent implements OnInit {
+export class MainViewComponent {
+  /** INJECTIONS */
   private heroService = inject(HeroService);
   private dialog = inject(MatDialog);
 
-  searchValue = signal<string>('');
+  /** TABLE */
   displayedColumns: string[] = ['id', 'name', 'realName', 'edit', 'delete'];
-  readonly herosList = this.heroService.getHeroes();
 
-  ngOnInit(): void {
-    // this.herosList.set(this.heroService.getHeroes());
+  /** DATA VARIABLES */
+  searchValue = signal<string>('');
+  herosList = this.heroService.getHeroes();
+  // readonly herosList = computed(() => {
+  //   const query = this.searchValue();
+  //   if (query !== '') {
+  //     return this.heroService.getHeroesByName(this.searchValue());
+  //   } else {
+  //     return this.heroService.getHeroes();
+  //   }
+  // });
+
+  onSearchUpdated(value: string): void {
+    console.log(value);
+    if (value) {
+      this.heroService.getHeroesByName(value);
+    }
   }
 
   openNewHeroDialog(): void {
     const newHero: IntHero = {
-      id: this.herosList()[this.herosList().length - 1]?.id + 1,
+      id: this.herosList()[this.herosList().length - 1].id + 1,
       name: '',
       realName: '',
     };
@@ -57,21 +82,28 @@ export class MainViewComponent implements OnInit {
   }
 
   editHero(hero: IntHero): void {
-    console.log(hero);
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: hero,
     });
 
     dialogRef.afterClosed().subscribe((updatedHero: IntHero) => {
       if (updatedHero) {
-        console.log(updatedHero);
         this.heroService.updateHero(updatedHero);
       }
     });
   }
 
   deleteHero(hero: IntHero): void {
-    console.log(hero);
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: hero,
+    });
+
+    dialogRef.afterClosed().subscribe((updatedHero: IntHero) => {
+      if (updatedHero) {
+        this.heroService.updateHero(updatedHero);
+      }
+    });
+
     this.heroService.deleteHero(hero.id);
   }
 }
