@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Eliminar héroe</h2>
+<mat-dialog-content>
+  <h3>Está seguro que desea eliminar el héroe?</h3>
+</mat-dialog-content>
+<mat-dialog-actions [align]="'end'">
+  <button mat-button (click)="closeDialog(false)">Cerrar</button>
+  <button
+    color="primary"
+    mat-button
+    cdkFocusInitial
+    mat-flat-button
+    (click)="closeDialog(true)">
+    Aceptar
+  </button>
+</mat-dialog-actions>

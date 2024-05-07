@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
+import { DeleteHeroDialogComponent } from './components/delete-hero-dialog/delete-hero-dialog.component';
 
 @Component({
   selector: 'app-main-view',
@@ -94,16 +95,14 @@ export class MainViewComponent {
   }
 
   deleteHero(hero: IntHero): void {
-    const dialogRef = this.dialog.open(FormDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteHeroDialogComponent, {
       data: hero,
     });
 
-    dialogRef.afterClosed().subscribe((updatedHero: IntHero) => {
-      if (updatedHero) {
-        this.heroService.updateHero(updatedHero);
+    dialogRef.afterClosed().subscribe((value: boolean) => {
+      if (value) {
+        this.heroService.deleteHero(hero.id);
       }
     });
-
-    this.heroService.deleteHero(hero.id);
   }
 }
